@@ -253,7 +253,7 @@
             color: white;
         }
 
-        .单选题-choice {
+        .single-choice {
             background-color: #007bff;
         }
 
@@ -500,8 +500,8 @@
                     let titleHTML = `
                     <div class="title-title">
                         ${title.id}. ${title.title}
-                        <span class="title-type ${title.type === '单选题' ? '单选题-choice' : 'judge'}">
-                            ${title.type === '单选题' ? '单选题' : '判断题'}
+                        <span class="title-type ${title.type === 'single' ? 'single-choice' : 'judge'}">
+                            ${title.type === 'single' ? '单选题' : '判断题'}
                         </span>
                     </div>
                 `;
