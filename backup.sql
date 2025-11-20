@@ -1,233 +1,85 @@
-mysql  Ver 14.14 Distrib 5.7.24, for osx10.9 (x86_64) using  EditLine wrapper
-Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
 
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `CIE202406`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CIE202406` (
+  `id` int NOT NULL,
+  `title` text NOT NULL,
+  `image` json DEFAULT NULL,
+  `options` json NOT NULL,
+  `examId` varchar(50) NOT NULL,
+  `type` varchar(20) NOT NULL,
+  `correctAnswer` varchar(5) NOT NULL,
+  `difficulty` varchar(10) NOT NULL,
+  `explanation` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-Usage: mysql [OPTIONS] [database]
-  -?, --help          Display this help and exit.
-  -I, --help          Synonym for -?
-  --auto-rehash       Enable automatic rehashing. One doesn't need to use
-                      'rehash' to get table and field completion, but startup
-                      and reconnecting may take a longer time. Disable with
-                      --disable-auto-rehash.
-                      (Defaults to on; use --skip-auto-rehash to disable.)
-  -A, --no-auto-rehash 
-                      No automatic rehashing. One has to use 'rehash' to get
-                      table and field completion. This gives a quicker start of
-                      mysql and disables rehashing on reconnect.
-  --auto-vertical-output 
-                      Automatically switch to vertical output mode if the
-                      result is wider than the terminal width.
-  -B, --batch         Don't use history file. Disable interactive behavior.
-                      (Enables --silent.)
-  --bind-address=name IP address to bind to.
-  --binary-as-hex     Print binary data as hex
-  --character-sets-dir=name 
-                      Directory for character set files.
-  --column-type-info  Display column type information.
-  -c, --comments      Preserve comments. Send comments to the server. The
-                      default is --skip-comments (discard comments), enable
-                      with --comments.
-  -C, --compress      Use compression in server/client protocol.
-  -#, --debug[=#]     This is a non-debug version. Catch this and exit.
-  --debug-check       This is a non-debug version. Catch this and exit.
-  -T, --debug-info    This is a non-debug version. Catch this and exit.
-  -D, --database=name Database to use.
-  --default-character-set=name 
-                      Set the default character set.
-  --delimiter=name    Delimiter to be used.
-  --enable-cleartext-plugin 
-                      Enable/disable the clear text authentication plugin.
-  -e, --execute=name  Execute command and quit. (Disables --force and history
-                      file.)
-  -E, --vertical      Print the output of a query (rows) vertically.
-  -f, --force         Continue even if we get an SQL error.
-  --histignore=name   A colon-separated list of patterns to keep statements
-                      from getting logged into syslog and mysql history.
-  -G, --named-commands 
-                      Enable named commands. Named commands mean this program's
-                      internal commands; see mysql> help . When enabled, the
-                      named commands can be used from any line of the query,
-                      otherwise only from the first line, before an enter.
-                      Disable with --disable-named-commands. This option is
-                      disabled by default.
-  -i, --ignore-spaces Ignore space after function names.
-  --init-command=name SQL Command to execute when connecting to MySQL server.
-                      Will automatically be re-executed when reconnecting.
-  --local-infile      Enable/disable LOAD DATA LOCAL INFILE.
-  -b, --no-beep       Turn off beep on error.
-  -h, --host=name     Connect to host.
-  -H, --html          Produce HTML output.
-  -X, --xml           Produce XML output.
-  --line-numbers      Write line numbers for errors.
-                      (Defaults to on; use --skip-line-numbers to disable.)
-  -L, --skip-line-numbers 
-                      Don't write line number for errors.
-  -n, --unbuffered    Flush buffer after each query.
-  --column-names      Write column names in results.
-                      (Defaults to on; use --skip-column-names to disable.)
-  -N, --skip-column-names 
-                      Don't write column names in results.
-  --sigint-ignore     Ignore SIGINT (CTRL-C).
-  -o, --one-database  Ignore statements except those that occur while the
-                      default database is the one named at the command line.
-  --pager[=name]      Pager to use to display results. If you don't supply an
-                      option, the default pager is taken from your ENV variable
-                      PAGER. Valid pagers are less, more, cat [> filename],
-                      etc. See interactive help (\h) also. This option does not
-                      work in batch mode. Disable with --disable-pager. This
-                      option is disabled by default.
-  -p, --password[=name] 
-                      Password to use when connecting to server. If password is
-                      not given it's asked from the tty.
-  -P, --port=#        Port number to use for connection or 0 for default to, in
-                      order of preference, my.cnf, $MYSQL_TCP_PORT,
-                      /etc/services, built-in default (3306).
-  --prompt=name       Set the mysql prompt to this value.
-  --protocol=name     The protocol to use for connection (tcp, socket, pipe,
-                      memory).
-  -q, --quick         Don't cache result, print it row by row. This may slow
-                      down the server if the output is suspended. Doesn't use
-                      history file.
-  -r, --raw           Write fields without conversion. Used with --batch.
-  --reconnect         Reconnect if the connection is lost. Disable with
-                      --disable-reconnect. This option is enabled by default.
-                      (Defaults to on; use --skip-reconnect to disable.)
-  -s, --silent        Be more silent. Print results with a tab as separator,
-                      each row on new line.
-  -S, --socket=name   The socket file to use for connection.
-  --ssl-mode=name     SSL connection mode.
-  --ssl               Deprecated. Use --ssl-mode instead.
-                      (Defaults to on; use --skip-ssl to disable.)
-  --ssl-verify-server-cert 
-                      Deprecated. Use --ssl-mode=VERIFY_IDENTITY instead.
-  --ssl-ca=name       CA file in PEM format.
-  --ssl-capath=name   CA directory.
-  --ssl-cert=name     X509 cert in PEM format.
-  --ssl-cipher=name   SSL cipher to use.
-  --ssl-key=name      X509 key in PEM format.
-  --ssl-crl=name      Certificate revocation list.
-  --ssl-crlpath=name  Certificate revocation list path.
-  --tls-version=name  TLS version to use, permitted values are: TLSv1, TLSv1.1,
-                      TLSv1.2
-  --server-public-key-path=name 
-                      File path to the server public RSA key in PEM format.
-  --get-server-public-key 
-                      Get server public key
-  -t, --table         Output in table format.
-  --tee=name          Append everything into outfile. See interactive help (\h)
-                      also. Does not work in batch mode. Disable with
-                      --disable-tee. This option is disabled by default.
-  -u, --user=name     User for login if not current user.
-  -U, --safe-updates  Only allow UPDATE and DELETE that uses keys.
-  -U, --i-am-a-dummy  Synonym for option --safe-updates, -U.
-  -v, --verbose       Write more. (-v -v -v gives the table output format).
-  -V, --version       Output version information and exit.
-  -w, --wait          Wait and retry if connection is down.
-  --connect-timeout=# Number of seconds before connection timeout.
-  --max-allowed-packet=# 
-                      The maximum packet length to send to or receive from
-                      server.
-  --net-buffer-length=# 
-                      The buffer size for TCP/IP and socket communication.
-  --select-limit=#    Automatic limit for SELECT when using --safe-updates.
-  --max-join-size=#   Automatic limit for rows in a join when using
-                      --safe-updates.
-  --secure-auth       Refuse client connecting to server if it uses old
-                      (pre-4.1.1) protocol. Deprecated. Always TRUE
-  --server-arg=name   Send embedded server this as a parameter.
-  --show-warnings     Show warnings after every statement.
-  -j, --syslog        Log filtered interactive commands to syslog. Filtering of
-                      commands depends on the patterns supplied via histignore
-                      option besides the default patterns.
-  --plugin-dir=name   Directory for client-side plugins.
-  --default-auth=name Default authentication client-side plugin to use.
-  --binary-mode       By default, ASCII '\0' is disallowed and '\r\n' is
-                      translated to '\n'. This switch turns off both features,
-                      and also turns off parsing of all clientcommands except
-                      \C and DELIMITER, in non-interactive mode (for input
-                      piped to mysql or loaded using the 'source' command).
-                      This is necessary when processing output from mysqlbinlog
-                      that may contain blobs.
-  --connect-expired-password 
-                      Notify the server that this client is prepared to handle
-                      expired password sandbox mode.
+LOCK TABLES `CIE202406` WRITE;
+/*!40000 ALTER TABLE `CIE202406` DISABLE KEYS */;
+INSERT INTO `CIE202406` VALUES (1,'音乐VideoGame1的时长将近8秒，点击一次角色，下列哪个程序不能完整地播放音乐两次？（）','null','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级113.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级120.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级127.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级134.png\"}]','20240113-yw-005','single','D','一般','D选项只会播放一遍声音'),(2,'水果盲盒角色有6个造型，其中星星造型表示神秘大礼，程序运行前的造型是葡萄，运行一次下列哪个程序后能得到神秘大奖？（）','[\"202406图形化一级.files/202406图形化一级291.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级300.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级307.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级314.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级321.png\"}]','20240113-yw-029','single','B','较难','当前角色造型在最后一个，而星星造型是在第三个位置，所以需要切换三次造型'),(3,'舞台有四个背景，运行程序前为第一个背景，运行程序后，会换成下列哪个背景？（）','[\"202406图形化一级.files/202406图形化一级482.png\", \"202406图形化一级.files/202406图形化一级483.png\"]','[{\"id\": \"A\", \"text\": \"动物园\"}, {\"id\": \"B\", \"text\": \"游泳馆\"}, {\"id\": \"C\", \"text\": \"杂货店\"}, {\"id\": \"D\", \"text\": \"舞台\"}]','20240113-yw-030','single','C','一般','当程序运行之后会换成舞台背景，总共切换了三次背景刚好切换到杂货店背景。'),(4,'在矢量图模式下，绘制了如左图所示的三个圆球，选中紫色圆球，点击一次下列哪个选项就可以将左图变为右图？（）','[\"202406图形化一级.files/202406图形化一级695.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级704.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级711.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级718.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级725.png\"}]','20240114-hcc-006','single','C','一般','目前紫色圆球在最底下，一次性放到最上面的方法需要单击\"放最前面\"按钮1次。'),(5,'周末要开展一场篮球比赛，选择下列哪个背景比较合适？（）','null','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级884.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级891.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级898.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级906.png\"}]','20240114-hcc-011','single','B','一般','B选项背景为篮球场，与作品主题匹配。'),(6,'三角龙初始位置如下图所示，运行下列哪个选项可以使它远离火山？（）','[\"202406图形化一级.files/202406图形化一级1045.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级1054.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级1061.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级1068.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级1075.png\"}]','20240114-hcc-018','single','D','一般','面向-120度是朝左下运动，可以远离火山，选择D。'),(7,'蜻蜓初始位置如下图所示，运行程序后，要想让蜻蜓最后停在石桌上，下列哪个选项能实现？（）','[\"202406图形化一级.files/202406图形化一级1232.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级1240.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级1247.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级1254.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级1261.png\"}]','20240114-hcc-021','single','D','容易','D选项能够实现让蜻蜓移动到左边石桌处。'),(8,'想要让音频中间部分\"没有声音\"，可以如何操作？（）','[\"202406图形化一级.files/202406图形化一级1394.png\"]','[{\"id\": \"A\", \"text\": \"直接单击\\\"静音\\\"按钮\"}, {\"id\": \"B\", \"text\": \"选中中间部分音频，单击\\\"快一点\\\"按钮\"}, {\"id\": \"C\", \"text\": \"选中中间部分音频，单击\\\"慢一点\\\"按钮\"}, {\"id\": \"D\", \"text\": \"选中中间部分音频，单击\\\"静音\\\"按钮\"}]','20240114-hcc-028','single','D','一般',''),(9,'下列哪个选项能够实现：点击切换按钮，切换舞台背景？（）','[\"202406图形化一级.files/202406图形化一级1598.png\", \"202406图形化一级.files/202406图形化一级1599.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级1606.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级1613.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级1620.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级1627.png\"}]','20240118-cp-009','single','A','容易','要实现点击切换按钮，切换舞台背景的效果，需要使用\"当角色被点击\"和\"下一个背景\"指令块，因此A选项正确。'),(10,'运行下列哪个程序后，小猫会一直说着\"你好！\"？（）','[\"202406图形化一级.files/202406图形化一级1793.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级1801.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级1808.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级1815.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级1822.png\"}]','20240118-cp-015','single','D','容易','舞台效果为小猫一直在说，因此选项D正确。'),(11,'初始舞台和角色如下图所示，下列哪个程序可以实现：Abby向前移动50步，向老师问好的效果？（）','[\"202406图形化一级.files/202406图形化一级1978.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级1986.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级1993.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级2000.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级2007.png\"}]','20240118-cp-021','single','B','容易','要实现Abby向前移动50步，向老师问好的效果，需要使用\"移动50步\"，\"说老师，你好！2秒\"积木块，要先移动再说。因此B选项正确。'),(12,'下列哪个程序能实现：单击\"停止\"按钮，停止所有声音？（）','[\"202406图形化一级.files/202406图形化一级2190.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级2199.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级2206.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级2213.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级2220.png\"}]','20240118-cp-027','single','C','一般','只有\"停止所有声音\"才能停止所有声音，其他选项的程序不一定能停止所有声音。因此C选项正确。'),(13,'看图找规律，请问下图?号处是？（）','[\"202406图形化一级.files/202406图形化一级2371.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级2379.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级2386.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级2393.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级2400.png\"}]','20240118-cp-031','single','C','一般','图形两边对称，因此问号处的图形应该是蓝色圆形。C选项正确。'),(14,'下列描述不正确的是？（ ）','null','[{\"id\": \"A\", \"text\": \"全屏模式按钮，可以全屏显示舞台区\", \"image\": \"202406图形化一级.files/202406图形化一级2536.png\"}, {\"id\": \"B\", \"text\": \"地球仪按钮，可以改变界面显示语言\", \"image\": \"202406图形化一级.files/202406图形化一级2560.png\"}, {\"id\": \"C\", \"text\": \"小绿旗按钮，可以启动程序\", \"image\": \"202406图形化一级.files/202406图形化一级2585.png\"}, {\"id\": \"D\", \"text\": \"小红点按钮，可以让舞台变成小舞台模式\", \"image\": \"202406图形化一级.files/202406图形化一级2605.png\"}]','20240214-wx-003','single','D','容易','D选项为停止按钮'),(15,'角色有多个造型，运行下列哪个程序后角色的造型一定是造型2？（ ）','null','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级2757.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级2764.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级2771.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级2778.png\"}]','20240214-wx-009','single','A','一般','选项A最后一定是造型2'),(16,'根据下列数字的变化规律，空格处的数字应该是？（ ）','[\"202406图形化一级.files/202406图形化一级2902.png\"]','[{\"id\": \"A\", \"text\": \"11\"}, {\"id\": \"B\", \"text\": \"13\"}, {\"id\": \"C\", \"text\": \"8\"}, {\"id\": \"D\", \"text\": \"16\"}]','20240214-wx-034','single','B','一般','从第三项开始每一项等于前两项的和'),(17,'请问③对应的区域是？（ ）','[\"202406图形化一级.files/202406图形化一级3051.png\"]','[{\"id\": \"A\", \"text\": \"积木区\"}, {\"id\": \"B\", \"text\": \"舞台区\"}, {\"id\": \"C\", \"text\": \"脚本区\"}, {\"id\": \"D\", \"text\": \"角色区\"}]','20240218-lxy-003','single','B','容易','①号区域是积木区 ②号区域是脚本区 ③号区域是舞台区 ④号区域是角色区'),(18,'把下图的手链拆开以后，可以得到下列哪串手链？（ ）','[\"202406图形化一级.files/202406图形化一级3237.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级3246.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级3253.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级3260.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级3267.png\"}]','20240220-ck-034','single','B','较难','把手串从如图位置拆开即刻得到B，也可用排除法，看有没有1组连续两颗蓝珠，1组连续三颗黄珠的。'),(19,'狮子的初始方向如左图所示，连续按下3次空格键后，舞台上显示？（ ）','[\"202406图形化一级.files/202406图形化一级3439.png\", \"202406图形化一级.files/202406图形化一级3440.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级3449.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级3456.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级3463.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级3470.png\"}]','20240227-ldl-004','single','C','一般','由题干知道角色默认方向是面向90的，按下一次角色面向180度移动100到达正下方并且面向下方，按下第二次角色面向-90度并且面向左边，按下第三次角色面向0度并且面向上方。因此答案选择C.'),(20,'角色箭头的初始造型和初始方向如下图所示，点击三次角色后，舞台上显示？（ ）','[\"202406图形化一级.files/202406图形化一级3690.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级3700.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级3707.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级3714.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级3721.png\"}]','20240227-ldl-007','single','B','困难','点击角色三次，每次右转90度，最后箭头向上，面向0方向。'),(21,'下列哪个程序，能够实现播放诗句的同时在舞台上能看见角色说出对应的诗句？（ ）','[\"202406图形化一级.files/202406图形化一级3875.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级3883.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级3890.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级3897.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级3904.png\"}]','20240227-ldl-015','single','A','一般','要实现音画同步需要先播放声音，并且不等待地出现画面。题目中能够正确实现功能的是A选项。'),(22,'在造型编辑器中，选中蛋糕以及它的阴影后，点击下列哪个按钮可以让造型从图1变成图2？（ ）','[\"202406图形化一级.files/202406图形化一级4080.png\", \"202406图形化一级.files/202406图形化一级4081.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级4088.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级4098.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级4105.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级4112.png\"}]','20240228-zp-003','single','B','一般','考察造型中的水平翻转。故选B'),(23,'背景如下图所示，下列说法正确的是？（ ）','[\"202406图形化一级.files/202406图形化一级4236.png\", \"202406图形化一级.files/202406图形化一级4237.png\"]','[{\"id\": \"A\", \"text\": \"点击绿旗后，背景一定会切换为\\\"Space\\\"\"}, {\"id\": \"B\", \"text\": \"点击绿旗后，背景不可能为\\\"Space City 2\\\"\"}, {\"id\": \"C\", \"text\": \"点击绿旗后，背景可能会切换到\\\"Space City 1\\\"\"}, {\"id\": \"D\", \"text\": \"点击绿旗后，会切换为下一个背景\"}]','20240228-zp-010','single','C','一般','使用换成\"随机背景\"背景积木可以让背景切换为1~4之间的任意一个背景，点击绿旗后，背景可能会切换到\"Space City 1\"，故选C。'),(24,'点击下列哪个按钮，可以从角色库随机选出一个角色？（ ）','[\"202406图形化一级.files/202406图形化一级4536.png\"]','[{\"id\": \"A\", \"image\": \"202406图形化一级.files/202406图形化一级4542.png\"}, {\"id\": \"B\", \"image\": \"202406图形化一级.files/202406图形化一级4549.png\"}, {\"id\": \"C\", \"image\": \"202406图形化一级.files/202406图形化一级4556.png\"}, {\"id\": \"D\", \"image\": \"202406图形化一级.files/202406图形化一级4563.png\"}]','20240228-zp-015','single','B','一般','B选项是从角色库随机选择一个角色。'),(25,'桌子上有三盘苹果，小猫说：\"第一盘比第三盘多3个。\"小狗说：\"第三盘比第二盘少5个。\"猜一猜，哪盘苹果最多？（ ）','null','[{\"id\": \"A\", \"text\": \"第一盘\"}, {\"id\": \"B\", \"text\": \"第二盘\"}, {\"id\": \"C\", \"text\": \"第三盘\"}, {\"id\": \"D\", \"text\": \"一样多\"}]','20240228-zp-024','single','B','一般','根据小狗说的\'第三盘比第二盘少5个\'，可知第二盘比第三盘多5个。再根据小猫说的\'第一盘比第三盘多3个\'，可知第一盘、第二盘都比第三盘多，也就是第三盘最少。再想：第一盘比第三盘多3个，第二盘比第三盘多5个，就知道第二盘的苹果最多，因此答案为B。'),(26,'运行程序后，将会使足球远离球门。（ ）','[\"202406图形化一级.files/202406图形化一级5005.png\", \"202406图形化一级.files/202406图形化一级5006.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240114-hcc-022','judge','B','一般','0°方向移动，更靠近球门。'),(27,'给一个角色添加声音后，其他角色也都可以播放该声音。（ ）','null','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240118-cp-030','judge','B','一般','每个角色只能播放为该角色添加的声音，其他角色不能播放该角色添加的声音。因此错误。'),(28,'保存程序，可以点击下图红框处选项。（ ）','[\"202406图形化一级.files/202406图形化一级5308.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240218-lxy-004','judge','B','容易','图中的红框处选项只能新建一个作品，而不能把作品保存在电脑上。'),(29,'下图红框处的两个\"复制\"按钮，点击后，都能生成一个新的造型。（ ）','[\"202406图形化一级.files/202406图形化一级5474.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240218-lxy-014','judge','B','容易','第一个复制操作，可以直接复制一个新的且相同的造型；第二个复制操作，只能复制选中的图形内容，并不能复制出一个新的造型。'),(30,'角色旋转的时候是围绕角色造型中心点进行旋转，所以可以通过修改中心点来制作不同的旋转效果。（ ）','[\"202406图形化一级.files/202406图形化一级5682.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240220-ck-023','judge','A','一般',''),(31,'下列程序能让角色向上跳起来再落下。（ ）','[\"202406图形化一级.files/202406图形化一级5804.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240220-ck-024','judge','A','较难','现将角色的旋转方式设为不可旋转，这样无论角色方向面朝哪，脸的朝向都不会有变化。然后面向0（上）移动100步，即向上移动100步距离，等0.2秒以后再向180方向（下）移动100步，可以实现跳起再落下的效果。'),(32,'使用下面积木，能把所有角色的音量设为0%。（ ）','[\"202406图形化一级.files/202406图形化一级6033.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240220-ck-030','judge','B','容易','这个积木只停止声音的播放，并不改变音量设置。'),(33,'把一根长木头平均分成5段，至少需要切5刀。（ ）','null','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240227-ldl-025','judge','B','一般','4刀就能将一根长木头切成5段。'),(34,'复制角色后，产生的新角色能保留原角色所有的造型和代码。（ ）','null','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240228-zp-027','judge','A','一般','复制产生的角色有原角色所有的造型、代码。'),(35,'可以从下面选项卡中查看角色当前造型的名字。（ ）','[\"202406图形化一级.files/202406图形化一级6461.png\"]','[{\"id\": \"A\", \"text\": \"正确\"}, {\"id\": \"B\", \"text\": \"错误\"}]','20240113-yw-033','judge','A','一般','可以在造型选项卡当中查看角色所有造型并且看到对应的造型名字');
+/*!40000 ALTER TABLE `CIE202406` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `records`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `records` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `wrong_list` json NOT NULL,
+  `exam_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `u_id` int NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_exam_id` (`exam_id`),
+  KEY `idx_u_id` (`u_id`),
+  KEY `idx_created_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-Default options are read from the following files in the given order:
-/etc/my.cnf /etc/mysql/my.cnf /opt/anaconda3/etc/my.cnf ~/.my.cnf 
-The following groups are read: mysql client
-The following options may be given as the first argument:
---print-defaults        Print the program argument list and exit.
---no-defaults           Don't read default options from any option file,
-                        except for login file.
---defaults-file=#       Only read default options from the given file #.
---defaults-extra-file=# Read this file after the global files are read.
---defaults-group-suffix=#
-                        Also read groups with concat(group, suffix)
---login-path=#          Read this path from the login file.
+LOCK TABLES `records` WRITE;
+/*!40000 ALTER TABLE `records` DISABLE KEYS */;
+INSERT INTO `records` VALUES (1,'[1, 11, 17, 18, 19, 20, 21, 23, 25, 27, 29, 32, 33]','CIE202406',3,'2025-11-15 09:01:28','2025-11-18 04:07:24'),(2,'[1, 2, 8, 13, 15, 17, 23, 24, 31, 34]','CIE202406',1,'2025-11-15 09:01:20','2025-11-18 04:09:02'),(3,'[2, 4, 6, 8, 10, 12, 13, 16, 19, 24, 25, 34]','CIE202406',2,'2025-11-15 09:01:20','2025-11-18 04:10:33'),(5,'[4]','CIE202406',5,'2025-11-20 00:44:56','2025-11-20 04:14:06');
+/*!40000 ALTER TABLE `records` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `students` (
+  `id` int NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `class` varchar(10) NOT NULL,
+  `level` enum('scratch-0','scratch-1','scratch-2','scratch-3','scratch-4') NOT NULL,
+  `status` tinyint DEFAULT '1' COMMENT '1-活跃, 0-非活跃',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-Variables (--variable-name=value)
-and boolean options {FALSE|TRUE}  Value (after reading options)
---------------------------------- ----------------------------------------
-auto-rehash                       TRUE
-auto-vertical-output              FALSE
-bind-address                      (No default value)
-binary-as-hex                     FALSE
-character-sets-dir                (No default value)
-column-type-info                  FALSE
-comments                          FALSE
-compress                          FALSE
-database                          (No default value)
-default-character-set             auto
-delimiter                         ;
-enable-cleartext-plugin           FALSE
-vertical                          FALSE
-force                             FALSE
-histignore                        (No default value)
-named-commands                    FALSE
-ignore-spaces                     FALSE
-init-command                      (No default value)
-local-infile                      FALSE
-no-beep                           FALSE
-host                              (No default value)
-html                              FALSE
-xml                               FALSE
-line-numbers                      TRUE
-unbuffered                        FALSE
-column-names                      TRUE
-sigint-ignore                     FALSE
-port                              0
-prompt                            mysql> 
-quick                             FALSE
-raw                               FALSE
-reconnect                         FALSE
-socket                            (No default value)
-ssl                               TRUE
-ssl-verify-server-cert            FALSE
-ssl-ca                            (No default value)
-ssl-capath                        (No default value)
-ssl-cert                          (No default value)
-ssl-cipher                        (No default value)
-ssl-key                           (No default value)
-ssl-crl                           (No default value)
-ssl-crlpath                       (No default value)
-tls-version                       (No default value)
-server-public-key-path            (No default value)
-get-server-public-key             FALSE
-table                             FALSE
-user                              root
-safe-updates                      FALSE
-i-am-a-dummy                      FALSE
-connect-timeout                   0
-max-allowed-packet                16777216
-net-buffer-length                 16384
-select-limit                      1000
-max-join-size                     1000000
-secure-auth                       TRUE
-show-warnings                     FALSE
-plugin-dir                        (No default value)
-default-auth                      (No default value)
-binary-mode                       FALSE
-connect-expired-password          FALSE
+LOCK TABLES `students` WRITE;
+/*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES (1,'文宇垚','1600','scratch-0',1,'2025-11-18 03:44:20','2025-11-18 03:44:20'),(2,'黄子宸','1600','scratch-0',1,'2025-11-18 03:44:20','2025-11-18 03:44:20'),(3,'彭宇洋','1600','scratch-0',1,'2025-11-18 03:44:20','2025-11-18 03:45:57'),(4,'马嘉禾','1600','scratch-0',1,'2025-11-20 01:56:56','2025-11-20 01:56:56'),(5,'测试','1600','scratch-0',1,'2025-11-20 01:56:56','2025-11-20 03:52:57');
+/*!40000 ALTER TABLE `students` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
